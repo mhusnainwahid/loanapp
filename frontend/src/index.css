@@ -2,14 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Professional Design System for Loan Application 
-All colors, gradients, fonts, and styles are defined here.
-All colors MUST be HSL for consistency.
-*/
+
 
 @layer base {
   :root {
-    /* Professional Finance Colors */
+  
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -17,54 +14,47 @@ All colors MUST be HSL for consistency.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
     
-    /* Primary - Professional Blue */
+  
     --primary: 217 91% 60%;
     --primary-foreground: 0 0% 98%;
     --primary-glow: 217 91% 70%;
     
-    /* Secondary - Light Gray */
+
     --secondary: 210 40% 96%;
     --secondary-foreground: 222.2 84% 4.9%;
     
-    /* Muted */
+ 
     --muted: 210 40% 96%;
     --muted-foreground: 215.4 16.3% 46.9%;
     
-    /* Accent */
+   
     --accent: 210 40% 94%;
     --accent-foreground: 222.2 84% 4.9%;
     
-    /* Destructive */
+ 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     
-    /* Success */
+
     --success: 142 76% 36%;
     --success-foreground: 210 40% 98%;
     
-    /* Warning */
+
     --warning: 38 92% 50%;
     --warning-foreground: 222.2 84% 4.9%;
     
-    /* Borders */
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 217 91% 60%;
     
-    /* Professional gradients */
     --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(217 91% 70%));
     --gradient-hero: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(217 91% 70%) 100%);
     --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(210 40% 98%) 100%);
     
-    /* Professional shadows */
     --shadow-card: 0 4px 6px -1px hsl(217 91% 60% / 0.1), 0 2px 4px -1px hsl(217 91% 60% / 0.06);
     --shadow-elegant: 0 10px 25px -3px hsl(217 91% 60% / 0.1), 0 4px 6px -2px hsl(217 91% 60% / 0.05);
     --shadow-hover: 0 20px 25px -5px hsl(217 91% 60% / 0.1), 0 10px 10px -5px hsl(217 91% 60% / 0.04);
-    
-    /* Radius */
     --radius: 0.75rem;
-
-    /* Sidebar colors */
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -104,8 +94,6 @@ All colors MUST be HSL for consistency.
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
-
-  /* Professional base styles */
   * {
     border-color: hsl(var(--border));
   }
@@ -119,26 +107,18 @@ All colors MUST be HSL for consistency.
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-
-  /* Professional typography */
   h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
     line-height: 1.25;
     letter-spacing: -0.025em;
   }
-
-  /* Smooth scrolling */
   html {
     scroll-behavior: smooth;
   }
-
-  /* Focus styles */
   *:focus-visible {
     outline: 2px solid hsl(var(--ring));
     outline-offset: 2px;
   }
-
-  /* Professional animations */
   @keyframes slideIn {
     from {
       opacity: 0;
@@ -153,8 +133,6 @@ All colors MUST be HSL for consistency.
   .animate-slide-in {
     animation: slideIn 0.6s ease-out;
   }
-
-  /* Professional utilities */
   .shadow-professional {
     box-shadow: var(--shadow-card);
   }
