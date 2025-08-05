@@ -28,3 +28,30 @@ export const getLoans = async (req, res) => {
     });
   }
 };
+
+
+export const getAllLoans = async (req, res) => {
+  try {
+    const loan = await Loan.find();
+    return res.status(200).json({loan});
+  } catch (error) {
+    return res.status(500).json({
+      message: "An error occurred while getting loans!",
+      error: error.message,
+    });
+  }
+};
+
+export const putLoans = async (req, res) => {
+  try {
+    const {loanId} = req.params
+    const {action} = req.body
+    const loan = await Loan.find();
+    return res.status(200).json({loan});
+  } catch (error) {
+    return res.status(500).json({
+      message: "An error occurred while getting loans!",
+      error: error.message,
+    });
+  }
+};

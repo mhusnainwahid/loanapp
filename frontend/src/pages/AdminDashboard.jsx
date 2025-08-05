@@ -20,9 +20,20 @@ const AdminDashboard = () => {
     tenure: ''
   });
 
-  useEffect(() => {
-    fetchAllLoans();
-  }, []);
+
+  useEffect(()=>{
+    const fetchAllLoans = async ()=>{
+      try {
+        const res = await axios.get('http://localhost:3000/userloans')
+        console.log(res.data.loan)
+        setLoans(res.data.loan)
+        setLoading(false)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchAllLoans()
+  },[])
 
   useEffect(() => {
     if (filter === 'all') {
@@ -32,25 +43,24 @@ const AdminDashboard = () => {
     }
   }, [loans, filter]);
 
-  const fetchAllLoans = async () => {
-    try {
-      // Replace with your backend URL
-      const response = await axios.get('/api/admin/loans');
-      setLoans(response.data);
-    } catch (error) {
-      toast.error('Failed to fetch loan applications');
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const fetchAllLoans = async () => {
+  //   try {
+  //     const response = await axios.get('/api/admin/loans');
+  //     setLoans(response.data);
+  //   } catch (error) {
+  //     toast.error('Failed to fetch loan applications');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleLoanAction = async (loanId, action, data = {}) => {
     try {
-      // Replace with your backend URL
-      await axios.put(`/api/admin/loans/${loanId}/${action}`, data);
+      await axios.put(`http://localhost:3000/adminloans/${loanId}/${action}`, data);
       
       toast.success(`Loan ${action}d successfully!`);
-      fetchAllLoans(); // Refresh the list
+      const res = await axios.get('http://localhost:3000/userloans');
+      setLoans(res.data.loan)
       setSelectedLoan(null);
     } catch (error) {
       toast.error(`Failed to ${action} loan`);
@@ -103,7 +113,7 @@ const AdminDashboard = () => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
-    );
+     );
   }
 
   return (
@@ -115,8 +125,6 @@ const AdminDashboard = () => {
             Manage all loan applications
           </p>
         </div>
-
-        {/* Filters */}
         <div className="mb-6">
           <Select value={filter} onValueChange={setFilter}>
             <SelectTrigger className="w-48">
@@ -130,8 +138,6 @@ const AdminDashboard = () => {
             </SelectContent>
           </Select>
         </div>
-
-        {/* Statistics */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <Card>
             <CardContent className="p-6">
@@ -164,8 +170,6 @@ const AdminDashboard = () => {
             </CardContent>
           </Card>
         </div>
-
-        {/* Loan Applications */}
         <div className="grid gap-6">
           {filteredLoans.map((loan) => (
             <Card key={loan._id}>

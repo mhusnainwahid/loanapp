@@ -44,7 +44,7 @@ const Navbar = () => {
             </div>
             <div className="flex flex-col">
               <span className="font-bold text-xl lg:text-2xl bg-gradient-primary bg-clip-text text-transparent">
-                LoanApp
+                EliteLoan
               </span>
               <span className="text-xs text-muted-foreground -mt-1 hidden sm:block">
                 Professional Lending
