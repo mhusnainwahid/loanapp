@@ -54,7 +54,7 @@ const ApplyLoan = () => {
 
       })
       toast.success('Loan application submitted successfully!');
-      // navigate('/my-loans');
+      navigate('/my-loans');
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to submit application');
     } finally {
