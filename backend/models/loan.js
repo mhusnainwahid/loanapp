@@ -4,6 +4,18 @@ const loanSchema = new Schema({
     name:{
         type: String
     },
+    email:{
+        type: String
+    },
+    monthlyIncome:{
+        type: String
+    },
+    phoneNumber:{
+        type: String
+    },
+    qualification:{
+        type : String
+    },
     userId:{
         type: mongoose.Schema.Types.ObjectId,
         ref:"User"

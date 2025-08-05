@@ -17,74 +17,44 @@ const loanTypes = [
 const ApplyLoan = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  // const [formData, setFormData] = useState({
-  //   loanType: '',
-  //   amount: '',
-  //   cnic: '',
-  //   proofDocument: null
-  // });
-
   const [name, setName] = useState('')
   const [loanType, setLoanType] = useState('')
   const [amount, setAmount] = useState('')
   const [tenure, setTenure] = useState('')
-  const [cinc, setCnic] = useState('')
+  const [cnic, setCnic] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [email, setEmail] = useState('')
+  const [qualification, setQualification] = useState('')
+  const [monthlyIncome, setMonthlyIncome] = useState('')
 
   const userId = localStorage.getItem('userId')
 
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData(prev => ({
-  //     ...prev,
-  //     [name]: value
-  //   }));
-  // };
+  const handleSelectChange = (value) => {
+    setLoanType(value);
+  };
 
-  // const handleSelectChange = (value) => {
-  //   setFormData(prev => ({
-  //     ...prev,
-  //     loanType: value
-  //   }));
-  // };
-
-  // const handleFileChange = (e) => {
-  //   setFormData(prev => ({
-  //     ...prev,
-  //     proofDocument: e.target.files[0]
-  //   }));
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    // console.log(name, loanType, amount, tenure, cnic,email,phoneNumber,qualification,monthlyIncome)
 
     try {
-      // const submitData = new FormData();
-      // submitData.append('loanType', formData.loanType);
-      // submitData.append('amount', formData.amount);
-      // submitData.append('cnic', formData.cnic);
-      // if (formData.proofDocument) {
-      //   submitData.append('proofDocument', formData.proofDocument);
-      // }
-
-      const res = await axios.post('http://localhost:3000/apply-loan', {
+     const res = await axios.post('http://localhost:3000/apply-loan', {
         name,
+        email,
+        phoneNumber,
+        qualification,
+        monthlyIncome,
         loanType,
         amount,
         tenure,
         cnic,
-        userId
+        userId,
+
       })
-
-      // Replace with your backend URL
-      await axios.post('/api/loans/apply', submitData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-
       toast.success('Loan application submitted successfully!');
-      navigate('/my-loans');
+      // navigate('/my-loans');
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to submit application');
     } finally {
@@ -135,6 +105,61 @@ const ApplyLoan = () => {
                 />
               </div>
 
+
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="text"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="phonenumber">Phone Number</Label>
+                <Input
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  type="text"
+                  required
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  placeholder="Enter your phone number"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="qualification">Qualification</Label>
+                <Input
+                  id="qualification"
+                  name="qualification"
+                  type="text"
+                  required
+                  value={qualification}
+                  onChange={(e) => setQualification(e.target.value)}
+                  placeholder="Enter your email"
+                />
+              </div>
+
+
+              <div className="space-y-2">
+                <Label htmlFor="monthlyIncome">Monthly Income</Label>
+                <Input
+                  id="monthlyIncome"
+                  name="monthlyIncome"
+                  type="number"
+                  required
+                  value={monthlyIncome}
+                  onChange={(e) => setMonthlyIncome(e.target.value)}
+                  placeholder="Enter your phone number"
+                  min="1000"
+                />
+              </div>
+
               <div className="space-y-2">
                 <Label htmlFor="amount">Loan Amount</Label>
                 <Input
@@ -148,6 +173,20 @@ const ApplyLoan = () => {
                   min="1000"
                 />
               </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="name">Tenure</Label>
+                <Input
+                  id="tenure"
+                  name="tenure"
+                  type="number"
+                  required
+                  value={tenure}
+                  onChange={(e) => setTenure(e.target.value)}
+                  placeholder="Enter Tenure"
+                />
+              </div>
+
 
               <div className="space-y-2">
                 <Label htmlFor="cnic">CNIC Number</Label>

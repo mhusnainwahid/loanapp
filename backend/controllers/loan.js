@@ -14,3 +14,17 @@ export const createLoan = async (req, res) => {
     });
   }
 };
+
+
+export const getLoans = async (req, res) => {
+  try {
+    const {userId} = req.params
+    const loan = await Loan.find({userId});
+    return res.status(200).json({loan});
+  } catch (error) {
+    return res.status(500).json({
+      message: "An error occurred while getting loans!",
+      error: error.message,
+    });
+  }
+};

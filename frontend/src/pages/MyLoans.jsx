@@ -8,22 +8,22 @@ import { toast } from 'sonner';
 const MyLoans = () => {
   const [loans, setLoans] = useState([]);
   const [loading, setLoading] = useState(true);
+  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
-    fetchMyLoans();
-  }, []);
-
-  const fetchMyLoans = async () => {
-    try {
-      // Replace with your backend URL
-      const response = await axios.get('/api/loans/my-loans');
-      setLoans(response.data);
-    } catch (error) {
-      toast.error('Failed to fetch loan applications');
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchLoans = async () => {
+      try {
+        const res = await axios.get(`http://localhost:3000/my-loans/${userId}`);
+        setLoans(res.data.loan);
+      } catch (error) {
+        console.log(error);
+        toast.error("Failed to fetch loans.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchLoans();
+  }, [userId]);
 
   const getStatusVariant = (status) => {
     switch (status.toLowerCase()) {
@@ -103,19 +103,19 @@ const MyLoans = () => {
                     </Badge>
                   </div>
                 </CardHeader>
-                
+
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div>
                       <p className="text-sm font-medium text-muted-foreground">Loan Amount</p>
                       <p className="text-lg font-semibold">{formatCurrency(loan.amount)}</p>
                     </div>
-                    
+
                     <div>
                       <p className="text-sm font-medium text-muted-foreground">CNIC</p>
                       <p className="text-lg">{loan.cnic}</p>
                     </div>
-                    
+
                     <div>
                       <p className="text-sm font-medium text-muted-foreground">Application ID</p>
                       <p className="text-lg font-mono">{loan._id.slice(-8).toUpperCase()}</p>
@@ -124,20 +124,8 @@ const MyLoans = () => {
                     {loan.status === 'approved' && loan.emi && (
                       <>
                         <div>
-                          <p className="text-sm font-medium text-muted-foreground">Monthly EMI</p>
-                          <p className="text-lg font-semibold text-success">
-                            {formatCurrency(loan.emi)}
-                          </p>
-                        </div>
-                        
-                        <div>
                           <p className="text-sm font-medium text-muted-foreground">Tenure</p>
                           <p className="text-lg">{loan.tenure} months</p>
-                        </div>
-                        
-                        <div>
-                          <p className="text-sm font-medium text-muted-foreground">Interest Rate</p>
-                          <p className="text-lg">{loan.interestRate}% per annum</p>
                         </div>
                       </>
                     )}
@@ -155,8 +143,8 @@ const MyLoans = () => {
                       <p className="text-sm font-medium text-muted-foreground mb-2">
                         Submitted Documents
                       </p>
-                      <Button 
-                        variant="outline" 
+                      <Button
+                        variant="outline"
                         size="sm"
                         onClick={() => window.open(loan.proofDocument, '_blank')}
                       >

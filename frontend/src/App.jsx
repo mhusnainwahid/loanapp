@@ -36,25 +36,25 @@ const App = () => (
               <Route 
                 path="/apply-loan" 
                 element={
-                  <ProtectedRoute>
+                  // <ProtectedRoute>
                     <ApplyLoan />
-                  </ProtectedRoute>
+                  // </ProtectedRoute>
                 } 
               />
               <Route 
                 path="/my-loans" 
                 element={
-                  <ProtectedRoute>
+                  // <ProtectedRoute>
                     <MyLoans />
-                  </ProtectedRoute>
+                  // </ProtectedRoute>
                 } 
               />
               <Route 
                 path="/admin" 
                 element={
-                  <ProtectedRoute adminOnly>
+                  // <ProtectedRoute adminOnly>
                     <AdminDashboard />
-                  </ProtectedRoute>
+                  // </ProtectedRoute>
                 } 
               />
               <Route path="*" element={<NotFound />} />
