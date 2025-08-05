@@ -49,7 +49,7 @@ const LoanCard = ({ type, description, features, interestRate, icon }) => {
               </Button>
             </Link>
           ) : (
-            <Link to="/signup" className="block">
+            <Link to="/apply-loan" className="block">
               <Button className="w-full group relative overflow-hidden shadow-professional hover:shadow-elegant transition-all duration-300">
                 <span className="relative z-10">Get Started</span>
                 <ArrowRight className="ml-2 h-4 w-4 relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
