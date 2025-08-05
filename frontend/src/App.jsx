@@ -7,11 +7,13 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
-import Auth from "./pages/Auth";
+
 import ApplyLoan from "./pages/ApplyLoan";
 import MyLoans from "./pages/MyLoans";
 import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 const queryClient = new QueryClient();
 
@@ -26,8 +28,11 @@ const App = () => (
             <Navbar />
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Auth mode="login" />} />
-              <Route path="/signup" element={<Auth mode="signup" />} />
+              {/* <Route path="/login" element={<Auth mode="login" />} />
+              <Route path="/signup" element={<Auth mode="signup" />} /> */}
+              <Route path='/login' element = {<><Login/></>} />
+              <Route path='/signup' element = {<><Signup/></>} />
+              
               <Route 
                 path="/apply-loan" 
                 element={

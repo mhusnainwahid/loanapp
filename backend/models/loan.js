@@ -1,6 +1,9 @@
 import mongoose, { model, Schema, Types } from "mongoose";
 
 const loanSchema = new Schema({
+    name:{
+        type: String
+    },
     userId:{
         type: mongoose.Schema.Types.ObjectId,
         ref:"User"

@@ -30,7 +30,6 @@ const Home = () => {
     <div className="min-h-screen bg-background">
       <Hero />
       
-      {/* Professional loan types section */}
       <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background to-secondary/30">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12 lg:mb-16">
@@ -53,8 +52,6 @@ const Home = () => {
               </div>
             ))}
           </div>
-
-          {/* Trust section */}
           <div className="mt-16 lg:mt-20 text-center">
             <div className="bg-card rounded-2xl p-6 lg:p-8 shadow-elegant border border-primary/10">
               <h3 className="text-xl lg:text-2xl font-semibold mb-4 text-foreground">

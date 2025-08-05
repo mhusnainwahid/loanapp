@@ -3,6 +3,7 @@ import connectMongoDb from "./config/mongodb.js";
 import authRoutes from "./routes/auth.js";
 import dotenv from "dotenv"
 import cors from 'cors'
+import loanRoutes from "./routes/loan.js";
 
 const app = express()
 dotenv.config()
@@ -13,6 +14,7 @@ connectMongoDb()
 
 app.use(express.json())
 app.use('/',authRoutes)
+app.use('/',loanRoutes)
 
 
 app.listen(PORT,()=>{

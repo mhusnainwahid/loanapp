@@ -9,7 +9,7 @@ const LoanCard = ({ type, description, features, interestRate, icon }) => {
 
   return (
     <Card className="group relative overflow-hidden hover:shadow-hover transition-all duration-500 hover:-translate-y-2 border-2 hover:border-primary/30 bg-gradient-card">
-      {/* Gradient overlay */}
+
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary-glow/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       
       <CardHeader className="text-center pb-4 relative z-10">
@@ -25,14 +25,11 @@ const LoanCard = ({ type, description, features, interestRate, icon }) => {
       </CardHeader>
       
       <CardContent className="space-y-6 relative z-10">
-        {/* Interest Rate - Professional highlight */}
         <div className="text-center p-4 lg:p-6 bg-gradient-to-r from-primary/10 via-primary/5 to-primary-glow/10 rounded-xl border border-primary/20">
           <p className="text-sm text-muted-foreground font-medium">Interest Rate</p>
           <p className="text-2xl lg:text-3xl font-bold text-primary mt-1">{interestRate}</p>
           <p className="text-xs text-muted-foreground mt-1">*Terms and conditions apply</p>
         </div>
-
-        {/* Features with professional styling */}
         <div className="space-y-3">
           <h4 className="font-semibold text-foreground text-sm lg:text-base">Key Benefits:</h4>
           {features.map((feature, index) => (
@@ -42,8 +39,6 @@ const LoanCard = ({ type, description, features, interestRate, icon }) => {
             </div>
           ))}
         </div>
-
-        {/* Professional CTA */}
         <div className="pt-4">
           {user ? (
             <Link to="/apply-loan" className="block">
@@ -63,8 +58,6 @@ const LoanCard = ({ type, description, features, interestRate, icon }) => {
             </Link>
           )}
         </div>
-
-        {/* Professional badge */}
         <div className="text-center">
           <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-success/10 text-success border border-success/20">
             ✓ Pre-approved available
