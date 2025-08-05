@@ -1,9 +1,9 @@
 import express from "express";
-import connectMongoDb from "./config/mongodb.js";
-import authRoutes from "./routes/auth.js";
 import dotenv from "dotenv"
 import cors from 'cors'
-import loanRoutes from "./routes/loan.js";
+import connectMongoDb from "./src/config/mongodb.js";
+import authRoutes from "./src/routes/auth.js";
+import loanRoutes from "./src/routes/loan.js";
 
 const app = express()
 dotenv.config()
