@@ -18,7 +18,7 @@ export const signupUser = async (req, res) => {
         }
         const token = jwt.sign(
             {name},
-            'test12',
+            process.env.JWT_SECRET_KEY,
             {expiresIn:'1d'}
         )
         // console.log(token)
@@ -73,7 +73,7 @@ export const loginUser = async (req, res) => {
                 name: existUser.userName, 
                 email: existUser.email
             },
-            'test12',
+            process.env.JWT_SECRET_KEY,
             { expiresIn: '1d' }
         );
 
