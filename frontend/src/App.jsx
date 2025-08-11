@@ -14,6 +14,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import AdminHome from "./pages/AdminHome";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,7 @@ const App = () => (
                   // </ProtectedRoute>
                 } 
               />
+              <Route path="/adminhome" element={<><AdminHome/></>} />
               <Route 
                 path="/admin" 
                 element={

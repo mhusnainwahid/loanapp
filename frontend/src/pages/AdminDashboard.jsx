@@ -8,6 +8,7 @@ import { Label } from '../components/ui/label';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
   const [loans, setLoans] = useState([]);
@@ -21,8 +22,8 @@ const AdminDashboard = () => {
   });
 
 
-  useEffect(()=>{
-    const fetchAllLoans = async ()=>{
+  useEffect(() => {
+    const fetchAllLoans = async () => {
       try {
         const res = await axios.get('http://localhost:3000/userloans')
         console.log(res.data.loan)
@@ -33,7 +34,7 @@ const AdminDashboard = () => {
       }
     }
     fetchAllLoans()
-  },[])
+  }, [])
 
   useEffect(() => {
     if (filter === 'all') {
@@ -57,7 +58,7 @@ const AdminDashboard = () => {
   const handleLoanAction = async (loanId, action, data = {}) => {
     try {
       await axios.put(`http://localhost:3000/adminloans/${loanId}/${action}`, data);
-      
+
       toast.success(`Loan ${action}d successfully!`);
       const res = await axios.get('http://localhost:3000/userloans');
       setLoans(res.data.loan)
@@ -77,7 +78,7 @@ const AdminDashboard = () => {
       interestRate: parseFloat(approvalData.interestRate),
       tenure: parseInt(approvalData.tenure)
     });
-    
+
     setApprovalData({ interestRate: '', tenure: '' });
   };
 
@@ -108,14 +109,18 @@ const AdminDashboard = () => {
     });
   };
 
+  const navigate = useNavigate()
+  const navigateToHome = () => {
+    navigate('/adminhome')
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
-     );
+    );
   }
-
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-background to-secondary/20">
       <div className="max-w-7xl mx-auto">
@@ -125,7 +130,7 @@ const AdminDashboard = () => {
             Manage all loan applications
           </p>
         </div>
-        <div className="mb-6">
+        <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <Select value={filter} onValueChange={setFilter}>
             <SelectTrigger className="w-48">
               <SelectValue placeholder="Filter by status" />
@@ -137,6 +142,8 @@ const AdminDashboard = () => {
               <SelectItem value="rejected">Rejected</SelectItem>
             </SelectContent>
           </Select>
+
+          <Button onClick={navigateToHome}>Go To Admin Home page</Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <Card>
@@ -188,7 +195,7 @@ const AdminDashboard = () => {
                   </Badge>
                 </div>
               </CardHeader>
-              
+
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                   <div>
@@ -197,17 +204,17 @@ const AdminDashboard = () => {
                     <p className="text-sm text-muted-foreground">{loan.user?.email}</p>
                     <p className="text-sm text-muted-foreground">{loan.user?.phone}</p>
                   </div>
-                  
+
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Loan Amount</p>
                     <p className="text-lg font-semibold">{formatCurrency(loan.amount)}</p>
                   </div>
-                  
+
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">CNIC</p>
                     <p className="text-lg">{loan.cnic}</p>
                   </div>
-                  
+
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Application ID</p>
                     <p className="text-lg font-mono">{loan._id.slice(-8).toUpperCase()}</p>
@@ -235,8 +242,8 @@ const AdminDashboard = () => {
 
                 <div className="flex flex-wrap gap-3">
                   {loan.proofDocument && (
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       size="sm"
                       onClick={() => window.open(loan.proofDocument, '_blank')}
                     >
@@ -245,8 +252,8 @@ const AdminDashboard = () => {
                   )}
 
                   {loan.user?.profileImage && (
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       size="sm"
                       onClick={() => window.open(loan.user.profileImage, '_blank')}
                     >
@@ -258,8 +265,8 @@ const AdminDashboard = () => {
                     <>
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button 
-                            variant="success" 
+                          <Button
+                            variant="success"
                             size="sm"
                             onClick={() => setSelectedLoan(loan)}
                           >
@@ -308,8 +315,8 @@ const AdminDashboard = () => {
                         </DialogContent>
                       </Dialog>
 
-                      <Button 
-                        variant="destructive" 
+                      <Button
+                        variant="destructive"
                         size="sm"
                         onClick={() => handleLoanAction(loan._id, 'reject')}
                       >
@@ -330,8 +337,8 @@ const AdminDashboard = () => {
                 No loan applications found
               </h3>
               <p className="text-sm text-muted-foreground">
-                {filter === 'all' 
-                  ? 'No applications have been submitted yet.' 
+                {filter === 'all'
+                  ? 'No applications have been submitted yet.'
                   : `No ${filter} applications found.`
                 }
               </p>
