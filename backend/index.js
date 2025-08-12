@@ -9,7 +9,7 @@ const app = express()
 dotenv.config()
 app.use(cors())
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 3000
 connectMongoDb()
 
 app.use(express.json())

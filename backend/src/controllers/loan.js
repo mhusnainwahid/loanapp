@@ -42,6 +42,25 @@ export const getAllLoans = async (req, res) => {
   }
 };
 
+export const loanResponse = async (req, res) => {
+  try {
+    const { loanId } = req.params
+    const updateData = req.body
+    const loan = await Loan.findByIdAndUpdate(loanId,updateData,{
+      new: true
+    });
+    return res.status(200).json({
+      message: "Loan update successfully!",
+      loan
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Loan doesn't update successfully!",
+      error: error.message,
+    });
+  }
+};
+
 export const putLoans = async (req, res) => {
   try {
     const {loanId} = req.params
