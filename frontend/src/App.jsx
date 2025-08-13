@@ -15,6 +15,9 @@ import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import AdminHome from "./pages/AdminHome";
+import AuthGaurd from "./routes/AuthGaurd";
+import IsLogin from "./routes/IsLogin";
+import AdminRoutes from "./routes/AdminRoutes";
 
 const queryClient = new QueryClient();
 
@@ -28,38 +31,38 @@ const App = () => (
           <div className="min-h-screen bg-background">
             <Navbar />
             <Routes>
-              <Route path="/" element={<Home />} />
-              {/* <Route path="/login" element={<Auth mode="login" />} />
-              <Route path="/signup" element={<Auth mode="signup" />} /> */}
-              <Route path='/login' element = {<><Login/></>} />
-              <Route path='/signup' element = {<><Signup/></>} />
-              
-              <Route 
-                path="/apply-loan" 
-                element={
-                  // <ProtectedRoute>
+
+              <Route element={<><IsLogin /></>} >
+                <Route path='/login' element={<><Login /></>} />
+                <Route path='/signup' element={<><Signup /></>} />
+              </Route>
+
+              <Route element={<><AuthGaurd /></>} >
+                <Route path="/" element={<Home />} />
+                <Route
+                  path="/apply-loan"
+                  element={
                     <ApplyLoan />
-                  // </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/my-loans" 
-                element={
-                  // <ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/my-loans"
+                  element={
                     <MyLoans />
-                  // </ProtectedRoute>
-                } 
-              />
-              <Route path="/adminhome" element={<><AdminHome/></>} />
-              <Route 
-                path="/admin" 
-                element={
-                  // <ProtectedRoute adminOnly>
-                    <AdminDashboard />
-                  // </ProtectedRoute>
-                } 
-              />
+                  }
+                />
+                <Route element={<><AdminRoutes /></>} >
+                  <Route path="/adminhome" element={<><AdminHome /></>} />
+                  <Route
+                    path="/admin"
+                    element={
+                      <AdminDashboard />
+                    }
+                  />
+                </Route>
+              </Route>
               <Route path="*" element={<NotFound />} />
+
             </Routes>
           </div>
         </BrowserRouter>

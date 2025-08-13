@@ -55,34 +55,45 @@ const AdminDashboard = () => {
   //   }
   // };
 
-  
 
-  const handleLoanAction = async (loanId, action, data = {}) => {
+
+  // const handleLoanAction = async (loanId, action, data = {}) => {
+  //   try {
+  //     await axios.put(`http://localhost:3000/adminloans/${loanId}/${action}`, data);
+
+  //     toast.success(`Loan ${action}d successfully!`);
+  //     const res = await axios.get('http://localhost:3000/userloans');
+  //     setLoans(res.data.loan)
+  //     setSelectedLoan(null);
+  //   } catch (error) {
+  //     toast.error(`Failed to ${action} loan`);
+  //   }
+  // };
+
+  const handleLoanAction = async (loan, action) => {
+    // console.log(loan)
     try {
-      await axios.put(`http://localhost:3000/adminloans/${loanId}/${action}`, data);
-
-      toast.success(`Loan ${action}d successfully!`);
-      const res = await axios.get('http://localhost:3000/userloans');
-      setLoans(res.data.loan)
-      setSelectedLoan(null);
+      const res = await axios.put(`http://localhost:3000/loanres/${loan._id}`, {
+        status: action
+      })
     } catch (error) {
       toast.error(`Failed to ${action} loan`);
     }
-  };
+  }
 
-  const handleApprove = async () => {
-    if (!approvalData.interestRate || !approvalData.tenure) {
-      toast.error('Please fill in all required fields');
-      return;
-    }
+  // const handleApprove = async () => {
+  //   if (!approvalData.interestRate || !approvalData.tenure) {
+  //     toast.error('Please fill in all required fields');
+  //     return;
+  //   }
 
-    await handleLoanAction(selectedLoan._id, 'approve', {
-      interestRate: parseFloat(approvalData.interestRate),
-      tenure: parseInt(approvalData.tenure)
-    });
+  //   await handleLoanAction(selectedLoan._id, 'approve', {
+  //     interestRate: parseFloat(approvalData.interestRate),
+  //     tenure: parseInt(approvalData.tenure)
+  //   });
 
-    setApprovalData({ interestRate: '', tenure: '' });
-  };
+  //   setApprovalData({ interestRate: '', tenure: '' });
+  // };
 
   const getStatusVariant = (status) => {
     switch (status.toLowerCase()) {
@@ -265,62 +276,17 @@ const AdminDashboard = () => {
 
                   {loan.status === 'pending' && (
                     <>
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button
-                            variant="success"
-                            size="sm"
-                            onClick={() => setSelectedLoan(loan)}
-                          >
-                            Approve
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>Approve Loan Application</DialogTitle>
-                            <DialogDescription>
-                              Set the interest rate and tenure for this loan approval.
-                            </DialogDescription>
-                          </DialogHeader>
-                          <div className="space-y-4">
-                            <div>
-                              <Label htmlFor="interestRate">Interest Rate (%)</Label>
-                              <Input
-                                id="interestRate"
-                                type="number"
-                                step="0.1"
-                                value={approvalData.interestRate}
-                                onChange={(e) => setApprovalData(prev => ({
-                                  ...prev,
-                                  interestRate: e.target.value
-                                }))}
-                                placeholder="e.g., 12.5"
-                              />
-                            </div>
-                            <div>
-                              <Label htmlFor="tenure">Tenure (months)</Label>
-                              <Input
-                                id="tenure"
-                                type="number"
-                                value={approvalData.tenure}
-                                onChange={(e) => setApprovalData(prev => ({
-                                  ...prev,
-                                  tenure: e.target.value
-                                }))}
-                                placeholder="e.g., 60"
-                              />
-                            </div>
-                            <Button onClick={handleApprove} className="w-full">
-                              Approve Loan
-                            </Button>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
-
                       <Button
                         variant="destructive"
                         size="sm"
-                        onClick={() => handleLoanAction(loan._id, 'reject')}
+                        onClick={() => handleLoanAction(loan, 'approved')}
+                      >
+                        Approve
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => handleLoanAction(loan, 'rejected')}
                       >
                         Reject
                       </Button>
