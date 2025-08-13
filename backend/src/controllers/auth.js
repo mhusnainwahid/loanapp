@@ -1,92 +1,102 @@
-import User from "../models/auth.js"
-import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
+import User from "../models/auth.js";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import nodemailer from "nodemailer";
 
 export const signupUser = async (req, res) => {
-    try {
-        const { name, email, phoneNumber, password, cnic , imageUrl,role } = req.body
-        if (!email || !password) {
-            return res.status(400).json({
-                message: "Please enter required fieldss!"
-            })
-        }
-        const existUser = await User.findOne({ email })
-        if (existUser) {
-            return res.status(401).json({
-                message: "User already exist!"
-            })
-        }
-        const token = jwt.sign(
-            {name},
-            process.env.JWT_SECRET_KEY,
-            {expiresIn:'1d'}
-        )
-        // console.log(token)
-        const salt = await bcrypt.genSalt(10)
-        const hashedPass =  bcrypt.hashSync(password,salt)
-        // console.log(hashedPass)
-        const userObj = {
-            name,
-            email,
-            password:hashedPass,
-            token,
-            role,
-            phoneNumber,
-            imageUrl
-        }
-        const user = await User.create(userObj)
-        return res.status(200).json({
-            message: "User signup succesfully!",
-            user
-        })
-    } catch (error) {
-        return res.status(500).json({
-            message: "An error occurred while signing user!",
-            error: error.message
-        })
+  try {
+    const { name, email, phoneNumber, password, cnic, imageUrl, role } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: "Please enter required fields!" });
     }
-}
+
+    const existUser = await User.findOne({ email });
+    if (existUser) {
+      return res.status(401).json({ message: "User already exists!" });
+    }
+
+    const token = jwt.sign({ name }, process.env.JWT_SECRET_KEY, { expiresIn: "1d" });
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPass = bcrypt.hashSync(password, salt);
+
+    const userObj = {
+      name,
+      email,
+      password: hashedPass,
+      token,
+      role,
+      phoneNumber,
+      imageUrl,
+    };
+
+    const user = await User.create(userObj);
+
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: "mhusnainwahid@gmail.com",
+        pass: "phgxobpbylhxjlhs", 
+      },
+    });
+
+    const info = await transporter.sendMail({
+      from: "mhusnainwahid@gmail.com",
+      to: userObj.email,
+      subject: "Sign up page",
+      text: "Sign up verification",
+    });
+
+    console.log("Message sent:", info.messageId);
+
+    return res.status(200).json({
+      message: "User signup successfully!",
+      user,
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      message: "User signup failed during email sending!",
+      error: error.message,
+    });
+  }
+};
 
 export const loginUser = async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        if (!email || !password) {
-            return res.status(400).json({
-                message: "Please enter required fields!"
-            });
-        }
-        const existUser = await User.findOne({ email });
-        if (!existUser) {
-            return res.status(401).json({
-                message: "Please signup first!"
-            });
-        }
-        const comparePass = bcrypt.compareSync(password, existUser.password);
-        if (!comparePass) {
-            return res.status(400).json({
-                message: "Wrong credentials!"
-            });
-        }
-        const token = jwt.sign(
-            {
-                id: existUser._id,
-                name: existUser.userName, 
-                email: existUser.email
-            },
-            process.env.JWT_SECRET_KEY,
-            { expiresIn: '1d' }
-        );
+  try {
+    const { email, password } = req.body;
 
-        return res.status(200).json({
-            message: "User login successfully!",
-            user: existUser,
-            token
-        });
-
-    } catch (error) {
-        return res.status(500).json({
-            message: "An error occurred while logging in the user!",
-            error: error.message
-        });
+    if (!email || !password) {
+      return res.status(400).json({ message: "Please enter required fields!" });
     }
+
+    const existUser = await User.findOne({ email });
+    if (!existUser) {
+      return res.status(401).json({ message: "Please signup first!" });
+    }
+
+    const comparePass = bcrypt.compareSync(password, existUser.password);
+    if (!comparePass) {
+      return res.status(400).json({ message: "Wrong credentials!" });
+    }
+
+    const token = jwt.sign(
+      { id: existUser._id, name: existUser.userName, email: existUser.email },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: "1d" }
+    );
+
+    return res.status(200).json({
+      message: "User login successfully!",
+      user: existUser,
+      token,
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      message: "An error occurred while logging in the user!",
+      error: error.message,
+    });
+  }
 };

@@ -32,7 +32,7 @@ const Login = () => {
             if (res.status === 200) {
                 toast.success('Login successful!');
                 navigate('/');
-                console.log(res.data)
+                // console.log(res.data)
 
                 localStorage.setItem("token", res.data.token)
                 localStorage.setItem("role", res.data.user.role)
