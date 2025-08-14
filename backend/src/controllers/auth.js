@@ -21,11 +21,16 @@ export const signupUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPass = bcrypt.hashSync(password, salt);
 
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString()
+    const codeExpires = new Date(Date.now() + 5 * 60 * 1000);
+
     const userObj = {
       name,
       email,
       password: hashedPass,
-      token,
+      verificationCode,
+      isVerified : false,
+      codeExpires,
       role,
       phoneNumber,
       imageUrl,
@@ -44,8 +49,8 @@ export const signupUser = async (req, res) => {
     const info = await transporter.sendMail({
       from: "mhusnainwahid@gmail.com",
       to: userObj.email,
-      subject: "Sign up page",
-      text: "Sign up verification",
+      subject: "Verify your account",
+      text: `Your verification code is: ${verificationCode}`,
     });
 
     console.log("Message sent:", info.messageId);
@@ -97,6 +102,44 @@ export const loginUser = async (req, res) => {
     return res.status(500).json({
       message: "An error occurred while logging in the user!",
       error: error.message,
+    });
+  }
+};
+
+
+export const verifyUser = async (req, res) => {
+  try {
+    const { email, code } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+
+    if (user.isVerified) {
+      return res.status(400).json({ message: "User already verified!" });
+    }
+
+    if (user.verificationCode?.toString().trim() !== code?.toString().trim()) {
+      return res.status(400).json({ message: "Invalid code" });
+    }
+
+    if (user.codeExpires < Date.now()) {
+      return res.status(400).json({ message: "Code expired already!" });
+    }
+
+    user.isVerified = true;
+    user.verificationCode = undefined;
+    user.codeExpires = undefined;
+
+    await user.save();
+
+    return res.status(200).json({ message: "User verified successfully!" });
+
+  } catch (error) {
+    return res.status(500).json({
+      message: "An error occurred while verifying user!",
+      error: error.message
     });
   }
 };

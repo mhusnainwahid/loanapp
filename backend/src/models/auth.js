@@ -19,11 +19,18 @@ const authSchema = new Schema({
     imageUrl:{
         type:String
     },
-    token:{
-        type: String
-    },
     role:{
         type : String
+    },
+    isVerified:{
+        type: Boolean,
+        default: false
+    },
+    verificationCode:{
+        type: String
+    },
+    codeExpires:{
+        type: Date
     }
 })
 

@@ -32,12 +32,12 @@ const App = () => (
             <Navbar />
             <Routes>
 
-              <Route element={<><IsLogin /></>} >
+              {/* <Route element={<><IsLogin /></>} > */}
                 <Route path='/login' element={<><Login /></>} />
                 <Route path='/signup' element={<><Signup /></>} />
-              </Route>
+              {/* </Route> */}
               <Route path="/" element={<Home />} />
-              <Route element={<><AuthGaurd /></>} >
+              {/* <Route element={<><AuthGaurd /></>} > */}
                 <Route
                   path="/apply-loan"
                   element={
@@ -59,7 +59,7 @@ const App = () => (
                     }
                   />
                 </Route>
-              </Route>
+              {/* </Route> */}
               <Route path="*" element={<NotFound />} />
 
             </Routes>
