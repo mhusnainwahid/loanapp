@@ -18,6 +18,7 @@ import AdminHome from "./pages/AdminHome";
 import AuthGaurd from "./routes/AuthGaurd";
 import IsLogin from "./routes/IsLogin";
 import AdminRoutes from "./routes/AdminRoutes";
+import VerifyPage from "./pages/VerifyPage";
 
 const queryClient = new QueryClient();
 
@@ -32,12 +33,13 @@ const App = () => (
             <Navbar />
             <Routes>
 
-              {/* <Route element={<><IsLogin /></>} > */}
+              <Route element={<><IsLogin /></>} >
                 <Route path='/login' element={<><Login /></>} />
                 <Route path='/signup' element={<><Signup /></>} />
-              {/* </Route> */}
+              </Route>
               <Route path="/" element={<Home />} />
-              {/* <Route element={<><AuthGaurd /></>} > */}
+              <Route path="/verifypage" element={<VerifyPage />} />
+              <Route element={<><AuthGaurd /></>} >
                 <Route
                   path="/apply-loan"
                   element={
@@ -59,7 +61,7 @@ const App = () => (
                     }
                   />
                 </Route>
-              {/* </Route> */}
+              </Route>
               <Route path="*" element={<NotFound />} />
 
             </Routes>

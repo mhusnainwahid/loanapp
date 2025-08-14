@@ -217,8 +217,18 @@ const Navbar = ({ cartItemsCount = 0 }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <span className="text-2xl font-bold text-brand-charcoal">Loveable</span>
+          <Link to="/" className="flex items-center space-x-3 group">
+            <div className="h-9 w-9 lg:h-10 lg:w-10 rounded-xl bg-gradient-primary flex items-center justify-center shadow-elegant group-hover:shadow-hover transition-all duration-300">
+              <span className="text-white font-bold text-lg lg:text-xl">L</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="font-bold text-xl lg:text-2xl bg-gradient-primary bg-clip-text text-transparent">
+                EliteLoan
+              </span>
+              <span className="text-xs text-muted-foreground -mt-1 hidden sm:block">
+                Professional Lending
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}

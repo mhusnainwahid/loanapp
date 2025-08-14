@@ -81,6 +81,10 @@ export const loginUser = async (req, res) => {
       return res.status(401).json({ message: "Please signup first!" });
     }
 
+     if (!existUser.isVerified) {
+      return res.status(401).json({ message: "Please verify your account first!" });
+    }
+
     const comparePass = bcrypt.compareSync(password, existUser.password);
     if (!comparePass) {
       return res.status(400).json({ message: "Wrong credentials!" });

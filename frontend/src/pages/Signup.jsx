@@ -53,7 +53,7 @@ const Signup = () => {
 
       if (res.status === 200) {
         toast.success('Signup successful!');
-        navigate('/');
+        navigate('/verifypage');
       } else {
         toast.error('Signup failed. Please try again.');
       }
