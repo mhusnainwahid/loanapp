@@ -70,16 +70,21 @@ const AdminDashboard = () => {
   //   }
   // };
 
-  const handleLoanAction = async (loan, action) => {
-    // console.log(loan)
-    try {
-      const res = await axios.put(`http://localhost:3000/loanres/${loan._id}`, {
-        status: action
-      })
-    } catch (error) {
-      toast.error(`Failed to ${action} loan`);
-    }
+const handleLoanAction = async (loan, action) => {
+  try {
+    const res = await axios.put(`http://localhost:3000/loanres/${loan._id}`, {
+      status: action,
+    });
+
+    toast.success(`Loan ${action} successfully!`);
+    setLoans(prevLoans => prevLoans.map(l => l._id === loan._id ? { ...l, status: action } : l));
+
+  } catch (error) {
+    toast.error(`Failed to ${action} loan`);
+    console.error(error);
   }
+};
+
 
   // const handleApprove = async () => {
   //   if (!approvalData.interestRate || !approvalData.tenure) {

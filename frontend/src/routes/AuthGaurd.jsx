@@ -5,8 +5,8 @@ const AuthGaurd = () => {
     const isAuth = !!localStorage.getItem('role')
     const isVerify = localStorage.getItem('isVerify')
   return (
-    isAuth ? <Outlet/> : <Navigate to = '/login'/>,
-    (isVerify == 'true') ? <Outlet/> : <Navigate to= '/login'/>
+    isAuth ? <Outlet/> : <Navigate to = '/login'/>
+    // (isVerify == 'true') ? <Outlet/> : <Navigate to= '/login'/>
   )
 }
 
