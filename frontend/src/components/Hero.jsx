@@ -1,12 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Button } from './ui/button';
-import {Lock} from 'lucide-react';
+import { Home, LayoutDashboard, List, Lock } from 'lucide-react';
 import heroImage from '../assets/financial-hero.jpg';
 import { ArrowRight, Shield, Clock, TrendingUp, CheckCircle } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 const Hero = () => {
   const { user } = useAuth();
+  const [isAuth, setIsAuth] = useState(false)
+  const role = localStorage.getItem('role')
+  useEffect(() => {
+    setIsAuth(!!role)
+  }, [])
 
   return (
     <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden font-sans">
@@ -35,16 +41,9 @@ const Hero = () => {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4">
-              {user ? (
-                <Link to="/apply-loan">
-                  <Button size="xl" className="group shadow-elegant hover:shadow-hover transition-all duration-300">
-                    Apply for Loan
-                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-              ) : (
+              {!isAuth ? (
                 <>
-                  <Link to="/signup">
+                  <Link to="/apply-loan">
                     <Button
                       size="xl"
                       className="group px-6 py-3 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300"
@@ -52,22 +51,66 @@ const Hero = () => {
                       Get Started Free
                       <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                     </Button>
-
                   </Link>
-                  <Link to="/login">
+                  <Link to="/signup">
                     <Button
                       size="xl"
                       variant="outline"
                       className="border-2 border-white text-black hover:bg-white/10 hover:text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 transition-all duration-300"
                     >
-                      <Lock className="w-5 h-5" />
-                      Sign In
+                      <Lock />
+                      Sign Up
                     </Button>
-
+                  </Link>
+                </>
+              ) : role === "admin" ? (
+                <>
+                  <Link to="/admin">
+                    <Button
+                      size="xl"
+                      variant="outline"
+                     className="group px-6 py-3 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300"
+                    >
+                      <LayoutDashboard className="w-5 h-5" />
+                      Admin Dashboard
+                    </Button>
+                  </Link>
+                  <Link to="/adminhome">
+                    <Button
+                      size="xl"
+                      variant="outline"
+                      className="border-2 border-white text-black hover:bg-white/10 hover:text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 transition-all duration-300"
+                    >
+                      <Home className="w-5 h-5" />
+                      Admin Home
+                    </Button>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link to="/apply-loan">
+                    <Button
+                      size="xl"
+                      className="group px-6 py-3 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300"
+                    >
+                      Get Started Free
+                      <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                    </Button>
+                  </Link>
+                  <Link to="/my-loans">
+                    <Button
+                      size="xl"
+                      variant="outline"
+                      className="border-2 border-white text-black hover:bg-white/10 hover:text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 transition-all duration-300"
+                    >
+                      <List/>
+                      My Loans
+                    </Button>
                   </Link>
                 </>
               )}
             </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 lg:pt-8">
               {[
                 {

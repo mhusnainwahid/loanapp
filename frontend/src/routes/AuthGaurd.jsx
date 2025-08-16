@@ -1,12 +1,11 @@
 import React from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
+import { toast } from 'sonner';
 
 const AuthGaurd = () => {
-    const isAuth = !!localStorage.getItem('role')
-    const isVerify = localStorage.getItem('isVerify')
+    const isAuth = !!localStorage.getItem('token')
   return (
-    isAuth ? <Outlet/> : <Navigate to = '/login'/>
-    // (isVerify == 'true') ? <Outlet/> : <Navigate to= '/login'/>
+      isAuth ? <Outlet/> : <Navigate to = '/login'/>
   )
 }
 
